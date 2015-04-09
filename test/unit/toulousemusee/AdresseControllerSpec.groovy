@@ -4,19 +4,16 @@ package toulousemusee
 import grails.test.mixin.*
 import spock.lang.*
 
-@TestFor(MuseeController)
-@Mock(Musee)
-class MuseeControllerSpec extends Specification {
+@TestFor(AdresseController)
+@Mock(Adresse)
+class AdresseControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
-        params["nom"] = "Ensemble onventuel Des Jacobins"
-        params["horairesOuverture"] = "9h à 12h"
-        params["telephone"] = "05.61.22.21.92"
-        params["accesMetro"] = "Esquirol"
-        params["accesBus"] = "Capitole"
-        params["gestionnaire"] = Mock(Gestionnaire)
-        params["adresse"] = Mock(Adresse)
+        params["numero"] = 10
+        params["rue"] = "Chemin du Lilas"
+        params["codePostal"] = "45000"
+        params["ville"] = "Orléans"
     }
 
     void "Test the index action returns the correct model"() {
@@ -25,8 +22,8 @@ class MuseeControllerSpec extends Specification {
         controller.index()
 
         then: "The model is correct"
-        !model.museeInstanceList
-        model.museeInstanceCount == 0
+        !model.adresseInstanceList
+        model.adresseInstanceCount == 0
     }
 
     void "Test the create action returns the correct model"() {
@@ -34,7 +31,7 @@ class MuseeControllerSpec extends Specification {
         controller.create()
 
         then: "The model is correctly created"
-        model.museeInstance != null
+        model.adresseInstance != null
     }
 
     void "Test the save action correctly persists an instance"() {
@@ -42,25 +39,25 @@ class MuseeControllerSpec extends Specification {
         when: "The save action is executed with an invalid instance"
         request.contentType = FORM_CONTENT_TYPE
         request.method = 'POST'
-        def musee = new Musee()
-        musee.validate()
-        controller.save(musee)
+        def adresse = new Adresse()
+        adresse.validate()
+        controller.save(adresse)
 
         then: "The create view is rendered again with the correct model"
-        model.museeInstance != null
+        model.adresseInstance != null
         view == 'create'
 
         when: "The save action is executed with a valid instance"
         response.reset()
         populateValidParams(params)
-        musee = new Musee(params)
+        adresse = new Adresse(params)
 
-        controller.save(musee)
+        controller.save(adresse)
 
         then: "A redirect is issued to the show action"
-        response.redirectedUrl == '/musee/show/1'
+        response.redirectedUrl == '/adresse/show/1'
         controller.flash.message != null
-        Musee.count() == 1
+        Adresse.count() == 1
     }
 
     void "Test that the show action returns the correct model"() {
@@ -72,11 +69,11 @@ class MuseeControllerSpec extends Specification {
 
         when: "A domain instance is passed to the show action"
         populateValidParams(params)
-        def musee = new Musee(params)
-        controller.show(musee)
+        def adresse = new Adresse(params)
+        controller.show(adresse)
 
         then: "A model is populated containing the domain instance"
-        model.museeInstance == musee
+        model.adresseInstance == adresse
     }
 
     void "Test that the edit action returns the correct model"() {
@@ -88,11 +85,11 @@ class MuseeControllerSpec extends Specification {
 
         when: "A domain instance is passed to the edit action"
         populateValidParams(params)
-        def musee = new Musee(params)
-        controller.edit(musee)
+        def adresse = new Adresse(params)
+        controller.edit(adresse)
 
         then: "A model is populated containing the domain instance"
-        model.museeInstance == musee
+        model.adresseInstance == adresse
     }
 
     void "Test the update action performs an update on a valid domain instance"() {
@@ -102,28 +99,28 @@ class MuseeControllerSpec extends Specification {
         controller.update(null)
 
         then: "A 404 error is returned"
-        response.redirectedUrl == '/musee/index'
+        response.redirectedUrl == '/adresse/index'
         flash.message != null
 
 
         when: "An invalid domain instance is passed to the update action"
         response.reset()
-        def musee = new Musee()
-        musee.validate()
-        controller.update(musee)
+        def adresse = new Adresse()
+        adresse.validate()
+        controller.update(adresse)
 
         then: "The edit view is rendered again with the invalid instance"
         view == 'edit'
-        model.museeInstance == musee
+        model.adresseInstance == adresse
 
         when: "A valid domain instance is passed to the update action"
         response.reset()
         populateValidParams(params)
-        musee = new Musee(params).save(flush: true)
-        controller.update(musee)
+        adresse = new Adresse(params).save(flush: true)
+        controller.update(adresse)
 
         then: "A redirect is issues to the show action"
-        response.redirectedUrl == "/musee/show/$musee.id"
+        response.redirectedUrl == "/adresse/show/$adresse.id"
         flash.message != null
     }
 
@@ -134,23 +131,23 @@ class MuseeControllerSpec extends Specification {
         controller.delete(null)
 
         then: "A 404 is returned"
-        response.redirectedUrl == '/musee/index'
+        response.redirectedUrl == '/adresse/index'
         flash.message != null
 
         when: "A domain instance is created"
         response.reset()
         populateValidParams(params)
-        def musee = new Musee(params).save(flush: true)
+        def adresse = new Adresse(params).save(flush: true)
 
         then: "It exists"
-        Musee.count() == 1
+        Adresse.count() == 1
 
         when: "The domain instance is passed to the delete action"
-        controller.delete(musee)
+        controller.delete(adresse)
 
         then: "The instance is deleted"
-        Musee.count() == 0
-        response.redirectedUrl == '/musee/index'
+        Adresse.count() == 0
+        response.redirectedUrl == '/adresse/index'
         flash.message != null
     }
 }

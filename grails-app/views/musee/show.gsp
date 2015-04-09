@@ -77,6 +77,15 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${museeInstance?.adresse}">
+				<li class="fieldcontain">
+					<span id="adresse-label" class="property-label"><g:message code="musee.adresse.label" default="Adresse" /></span>
+					
+						<span class="property-value" aria-labelledby="adresse-label"><g:link controller="adresse" action="show" id="${museeInstance?.adresse?.id}">${museeInstance?.adresse?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
 			</ol>
 			<g:form url="[resource:museeInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">
