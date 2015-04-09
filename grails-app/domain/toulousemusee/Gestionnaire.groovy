@@ -11,4 +11,8 @@ class Gestionnaire {
     static hasMany = [
             musees: Musee
     ]
+
+    String toString(){
+        "$nom"
+    }
 }

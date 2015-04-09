@@ -40,4 +40,16 @@ class GestionnaireSpec extends Specification {
         unNom = ''
 
     }
+
+    @Unroll
+    void "test de l'affichage d'un gestionnaire"(String unNom){
+        given: "un gestionnaire initialisé correctement"
+        Gestionnaire unGestionnaire = new Gestionnaire(nom: unNom)
+
+        expect: "le nom du gestionnaire"
+        unGestionnaire.toString()== "Roletto"
+
+        where:
+        unNom = "Roletto"
+    }
 }
