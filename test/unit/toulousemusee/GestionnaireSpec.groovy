@@ -19,6 +19,9 @@ class GestionnaireSpec extends Specification {
         expect: "le gestionnaire est valide"
         gestionnaire.validate() == true
 
+        and: "il n'est gestionnaire d'aucun musée"
+        !gestionnaire.musees
+
         where:
         unNom = "Dupont"
 

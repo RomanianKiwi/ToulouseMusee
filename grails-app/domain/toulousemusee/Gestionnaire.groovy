@@ -7,4 +7,8 @@ class Gestionnaire {
     static constraints = {
         nom nullable: false, blank: false
     }
+
+    static hasMany = [
+            musees: Musee
+    ]
 }
