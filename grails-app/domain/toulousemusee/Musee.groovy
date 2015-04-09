@@ -6,6 +6,7 @@ class Musee {
     String telephone
     String accesMetro
     String accesBus
+    Gestionnaire gestionnaire
 
     static constraints = {
         nom blank: false
@@ -13,6 +14,7 @@ class Musee {
         telephone blank: false
         accesMetro nullable: true, blank: true
         accesBus nullable: true, blank: true
+        gestionnaire nullable: false
     }
 
     String toString(){

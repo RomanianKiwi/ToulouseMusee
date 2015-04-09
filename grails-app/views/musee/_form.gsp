@@ -47,3 +47,12 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: museeInstance, field: 'gestionnaire', 'error')} required">
+	<label for="gestionnaire">
+		<g:message code="musee.gestionnaire.label" default="Gestionnaire" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select id="gestionnaire" name="gestionnaire.id" from="${toulousemusee.Gestionnaire.list()}" optionKey="id" required="" value="${museeInstance?.gestionnaire?.id}" class="many-to-one"/>
+
+</div>
+
