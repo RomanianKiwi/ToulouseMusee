@@ -56,3 +56,12 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: museeInstance, field: 'adresse', 'error')} required">
+	<label for="adresse">
+		<g:message code="musee.adresse.label" default="Adresse" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select id="adresse" name="adresse.id" from="${toulousemusee.Adresse.list()}" optionKey="id" required="" value="${museeInstance?.adresse?.id}" class="many-to-one"/>
+
+</div>
+
