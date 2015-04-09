@@ -12,8 +12,10 @@ class MuseeServiceIntegrationTest extends Specification {
 
     void "test insertion ou mise à jour d'un musée avec un gestionnaire"() {
 
-        given:"un musée"
-        Musee unMusee = new Musee(nom: "Musée X", horairesOuverture: "9h à 12h", telephone: "05.61.22.21.92", accesMetro: "Jean Jaurès", accesBus: "Capitole")
+        given:"un musée et son adresse"
+        Adresse adresseMusee = new Adresse(numero: 10, rue: "Chemin du Lilas", codePostal: "4500", ville: "Orléans")
+        adresseMusee.save()
+        Musee unMusee = new Musee(nom: "Musée X", horairesOuverture: "9h à 12h", telephone: "05.61.22.21.92", accesMetro: "Jean Jaurès", accesBus: "Capitole", adresse: adresseMusee)
 
         and: "un gestionnaire"
         Gestionnaire unGestionnaire = new Gestionnaire(nom: "Roletto")
