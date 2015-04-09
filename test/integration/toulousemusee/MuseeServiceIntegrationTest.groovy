@@ -44,8 +44,10 @@ class MuseeServiceIntegrationTest extends Specification {
 
     void "test suppression d'un musée"() {
 
-        given: "une musée existant en base"
-        Musee unMusee = new Musee(nom: "Musée X", horairesOuverture: "9h à 12h", telephone: "05.61.22.21.92", accesMetro: "Jean Jaurès", accesBus: "Capitole")
+        given: "une musée existant en base avec une adresse"
+        Adresse adresseMusee = new Adresse(numero: 10, rue: "Chemin du Lilas", codePostal: "4500", ville: "Orléans")
+        adresseMusee.save()
+        Musee unMusee = new Musee(nom: "Musée X", horairesOuverture: "9h à 12h", telephone: "05.61.22.21.92", accesMetro: "Jean Jaurès", accesBus: "Capitole", adresse: adresseMusee)
         Gestionnaire unGestionnaire = new Gestionnaire(nom: "Roletto")
         unMusee = museeService.insertOrUpdateMuseeForGestionnaire(unMusee,unGestionnaire)
 
