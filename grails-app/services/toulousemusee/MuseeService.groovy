@@ -16,4 +16,34 @@ class MuseeService {
         unMusee.gestionnaire.removeFromMusees(unMusee)
         unMusee.delete()
     }
+
+    List<Musee> searchMusees(String inNomMusee, String inCodePostal, String inNomRue) {
+        def criteria = Musee.createCriteria()
+        List<Musee> res = criteria.list {
+            if (inNomMusee) {
+                musee {
+                    like 'nom', "%${inNomMusee}%"
+                }
+            }
+            if (inCodePostal) {
+                musee {
+                    adresse {
+                            like 'codePostal', "%${inCodePostal}%"
+                    }
+                }
+            }
+            if (inNomRue) {
+                musee {
+                    adresse{
+                        like 'rue', "%${inNomRue}%"
+                    }
+                }
+            }
+            musee {
+                order('nom')
+            }
+            join 'musee.gestionnaire'
+        }
+        res
+    }
 }

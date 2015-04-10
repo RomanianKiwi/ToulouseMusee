@@ -6,7 +6,7 @@ import spock.lang.*
 /**
  *
  */
-class MuseeServiceIntegrationTest extends Specification {
+class MuseeServiceIntegrationSpec extends Specification {
 
     MuseeService museeService
 
