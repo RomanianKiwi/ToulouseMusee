@@ -19,10 +19,6 @@ class Musee {
         adresse nullable: false
     }
 
-    static mapping = {
-        gestionnaire fetch: 'join'
-    }
-
     String toString(){
         "$nom"
     }

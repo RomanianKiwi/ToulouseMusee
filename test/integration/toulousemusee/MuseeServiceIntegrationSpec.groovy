@@ -9,6 +9,7 @@ import spock.lang.*
 class MuseeServiceIntegrationSpec extends Specification {
 
     MuseeService museeService
+    JeuTestService jeuTestService
 
     void "test insertion ou mise à jour d'un musée avec un gestionnaire"() {
 
@@ -59,6 +60,53 @@ class MuseeServiceIntegrationSpec extends Specification {
 
         and:"le gestionnaire n'a plus le musée dans sa liste de musée"
         !unGestionnaire.musees.contains(unMusee)
+    }
+
+    void "test du moteur de recherche sur les musées"() {
+
+        given:"les musées, les gestionnaires et les adresses fournis par le jeu de test "
+        jeuTestService
+
+        when:"on cherche les musées dont le nom du musée contient 'eum' "
+        List<Musee> res = museeService.searchMusees("eum",null,null)
+
+        then:"on récupère uniquement les musées musée1 et musée3"
+        res.size() == 2
+        res*.id.contains(jeuTestService.musee1.id)
+        res*.id.contains(jeuTestService.musee3.id)
+
+        when:"on cherche les musées dont le code postal contient '45'"
+        res = museeService.searchMusees(null,'45',null)
+
+        then:"on récupère uniquement les musées musée1 et musée2"
+        res.size() == 2
+        res*.id.contains(jeuTestService.musee1.id)
+        res*.id.contains(jeuTestService.musee2.id)
+
+        and:"ils sont ordonnés suivant le nom du musée"
+        res*.nom == [jeuTestService.musee2.nom, jeuTestService.musee1.nom]
+
+        when:"on cherche la rue dont l'adresse contient 'Avenue' "
+        res = museeService.searchMusees(null,null,'Avenue')
+
+        then:"on recupère le musée 2"
+        res.size() == 1
+        res*.id.contains(jeuTestService.musee2.id)
+
+        when:"on cherche les musées dont le nom du contient 'XYZ'"
+        res = museeService.searchMusees("XYZ",null,null)
+
+        then: "on ne récupère aucun musée"
+        res.size() == 0
+
+        when:"on positionne tous les critères à null"
+        res = museeService.searchMusees(null, null, null)
+
+        then: "on récupère tout les musées"
+        res.size() == 3
+
+        and:"ils sont ordonnés suivant le nom du musée"
+        res*.nom == [jeuTestService.musee2.nom, jeuTestService.musee1.nom, jeuTestService.musee3.nom]
     }
 }
 
