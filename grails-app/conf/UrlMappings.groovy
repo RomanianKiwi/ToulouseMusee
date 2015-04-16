@@ -1,3 +1,4 @@
+
 class UrlMappings {
 
 	static mappings = {
@@ -9,5 +10,10 @@ class UrlMappings {
 
         "/"(view:"/index")
         "500"(view:'/error')
+
+        name museesList: "/" {
+            controller = 'musee'
+            action = 'list'
+        }
 	}
 }

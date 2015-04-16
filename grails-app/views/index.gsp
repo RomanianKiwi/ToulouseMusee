@@ -1,3 +1,4 @@
+<%@ page import="toulousemusee.MuseeController; toulousemusee.Adresse; toulousemusee.Musee" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -81,42 +82,80 @@
 		</style>
 	</head>
 	<body>
-        <a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-        <div id="status" role="complementary">
-            <h1>Application Status</h1>
-            <ul>
-                <li>App version: <g:meta name="app.version"/></li>
-                <li>Grails version: <g:meta name="app.grails.version"/></li>
-                <li>Groovy version: ${GroovySystem.getVersion()}</li>
-                <li>JVM version: ${System.getProperty('java.version')}</li>
-                <li>Reloading active: ${grails.util.Environment.reloadingAgentEnabled}</li>
-                <li>Controllers: ${grailsApplication.controllerClasses.size()}</li>
-                <li>Domains: ${grailsApplication.domainClasses.size()}</li>
-                <li>Services: ${grailsApplication.serviceClasses.size()}</li>
-                <li>Tag Libraries: ${grailsApplication.tagLibClasses.size()}</li>
-            </ul>
-            <h1>Installed Plugins</h1>
-            <ul>
-                <g:each var="plugin" in="${applicationContext.getBean('pluginManager').allPlugins}">
-                    <li>${plugin.name} - ${plugin.version}</li>
-                </g:each>
-            </ul>
-        </div>
-        <div id="page-body" role="main">
-            <h1>Welcome to Grails</h1>
-            <p>Congratulations, you have successfully started your first Grails application! At the moment
-            this is the default page, feel free to modify it to either redirect to a controller or display whatever
-            content you may choose. Below is a list of controllers that are currently deployed in this application,
-            click on each to execute its default action:</p>
+		<a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
+		<div id="page-body" role="main">
+			<h1>Welcome to ToulouseMusee</h1>
+		</div>
+		<div id="list-musee" class="content scaffold-list" role="main">
+			<h1><g:message code="default.list.label" args="['Musee']" /></h1>
+			<g:if test="${flash.message}">
+				<div class="message" role="status">${flash.message}</div>
+			</g:if>
 
-            <div id="controller-list" role="navigation">
-                <h2>Available Controllers:</h2>
-                <ul>
-                    <g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
-                        <li class="controller"><g:link controller="${c.logicalPropertyName}">${c.fullName}</g:link></li>
-                    </g:each>
-                </ul>
-            </div>
-        </div>
+			<g:form>
+				<fieldset class="form">
+					<div class="fieldcontain">
+						<label for="nom">
+							Nom du musée contient :
+						</label>
+						<g:textField name="nom"/>
+						<label for="codePostal">
+							Code postal :
+						</label>
+						<g:select id="codePostal" name='codePostal'
+								  noSelection="${['':'Choisir un code postal']}"
+								  from='${toulousemusee.Adresse.listUnique()}'></g:select>
+					</div>
+					<div class="fieldcontain">
+						<label for="rue">
+							Le nom de la rue contient :
+						</label>
+						<g:textField name="rue"/>
+					</div>
+					<div style="float: right">
+						<g:actionSubmit action="doSearchMusees" value="Rechercher" />
+					</div>
+				</fieldset>
+			</g:form>
+
+			<table>
+				<thead>
+				<tr>
+					<g:sortableColumn mapping="museesList" property="nom" title="${message(code: 'musee.nom.label', default: 'Nom')}" />
+					<g:sortableColumn mapping="museesList" property="telephone" title="${message(code: 'musee.telephone.label', default: 'Telephone')}" />
+					<g:sortableColumn mapping="museesList" property="adresse" title="${message(code: 'musee.adresse.label', default: 'Adresse')}" />
+					<g:sortableColumn mapping="museesList" property="accesMetro" title="${message(code: 'musee.accesMetro.label', default: 'Acces Metro')}" />
+					<g:sortableColumn mapping="museesList" property="accesBus" title="${message(code: 'musee.accesBus.label', default: 'Acces Bus')}" />
+					<g:sortableColumn mapping="museesList" property="horairesOuverture" title="${message(code: 'musee.horairesOuverture.label', default: 'Horaires Ouverture')}" />
+					<th><g:message code="musee.gestionnaire.label" default="Gestionnaire" /></th>
+				</tr>
+				</thead>
+				<tbody>
+				<g:each in="${museeInstanceList}" status="i" var="museeInstance">
+					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+
+						<td><g:link action="show" id="${museeInstance.id}">${fieldValue(bean: museeInstance, field: "nom")}</g:link></td>
+
+						<td>${fieldValue(bean: museeInstance, field: "telephone")}</td>
+
+						<td>${fieldValue(bean: museeInstance, field: "adresse")}</td>
+
+						<td>${fieldValue(bean: museeInstance, field: "accesMetro")}</td>
+
+						<td>${fieldValue(bean: museeInstance, field: "accesBus")}</td>
+
+						<td>${fieldValue(bean: museeInstance, field: "horairesOuverture")}</td>
+
+						<td>${fieldValue(bean: museeInstance, field: "gestionnaire")}</td>
+
+					</tr>
+				</g:each>
+				</tbody>
+			</table>
+
+			<div class="pagination">
+				<g:paginate total="${museeInstanceCount ?: 5}" />
+			</div>
+		</div>
 	</body>
 </html>

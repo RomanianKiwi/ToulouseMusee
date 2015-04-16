@@ -16,4 +16,15 @@ class Adresse {
     String toString(){
         "$numero $rue"
     }
+
+    static List listUnique() {
+
+        def adresses = Adresse.list()
+        List<String> codePostaux = new ArrayList<String>()
+
+        for(int i = 0; i < adresses.size(); i++)
+            codePostaux.add(i, adresses.get(i).codePostal)
+
+        codePostaux.unique()
+    }
 }
