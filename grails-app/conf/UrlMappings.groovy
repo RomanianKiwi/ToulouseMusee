@@ -13,7 +13,7 @@ class UrlMappings {
 
         name museesList: "/" {
             controller = 'musee'
-            action = 'list'
+            action = 'index'
         }
 	}
 }

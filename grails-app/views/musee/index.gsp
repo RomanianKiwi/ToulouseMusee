@@ -11,16 +11,17 @@
             body {
                 max-width: 1000px;
             }
+
+			#page-body {
+				margin: 2em 1em 1.25em 18em;
+			}
         </style>
 
 	</head>
 	<body>
 		<a href="#list-musee" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-			</ul>
+		<div id="page-body" role="main">
+			<h1>Welcome to ToulouseMusee</h1>
 		</div>
 		<div id="list-musee" class="content scaffold-list" role="main">
 			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
@@ -39,9 +40,8 @@
                             Le code postal contient :
                         </label>
                         <g:select id="codePostal" name='codePostal' value="${adresse?.codePostal}"
-                                  noSelection="${['':'Choisir un code postal']}"
-                                  from='${toulousemusee.Adresse.list()}'
-                                  optionKey="codePostal" optionValue="codePostal"></g:select>
+								  noSelection="${['':'Choisir un code postal']}"
+								  from='${toulousemusee.Adresse.listUnique()}'></g:select>
                     </div>
                     <div class="fieldcontain">
                         <label for="rue">
@@ -50,7 +50,7 @@
                         <g:textField name="rue"/>
                     </div>
                     <div style="float: right">
-                        <g:actionSubmit action="doSearchMusees" value="Rechercher" />
+                        <g:actionSubmit action="doSearchMusees" value="Rechercher" params="[max: 5]"/>
                     </div>
                 </fieldset>
             </g:form>
