@@ -17,16 +17,16 @@ class JeuTestServiceIntegrationSpec extends Specification {
         jeuTestService.createJeuTestForMusee()
 
         then: "3 nouveaux musées ont été créés en base"
-        Musee.count() == 3
+        Musee.count() == 12
 
 
         when: " des musées exitent deja dans la base"
-        Musee.count() == 3
+        Musee.count() == 12
 
         and: "on déclenche à nouveau la création du jeu de test pour musée"
         jeuTestService.createJeuTestForMusee()
 
         then: "aucun nouveau musée n'est créé"
-        Musee.count() == 3
+        Musee.count() == 12
     }
 }
