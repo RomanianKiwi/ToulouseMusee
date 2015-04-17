@@ -16,8 +16,15 @@ class MuseeController {
         render(view: 'index', model: [museeInstanceList: museeList, museeInstanceCount: museeList.size()])
     }
 
+    def addMuseeToFav() {
+        def museeList = museeService.searchMusees(params.nom, null, null)
+        Musee myFavMusee = museeList.get(0);
+        println myFavMusee
+        render(view: 'index', model: [museeInstanceList: Musee.list()])
+    }
+
     def index(Integer max) {
-        params.max = Math.min(max ?: 3, 100)
+        params.max = Math.min(max ?: 5, 100)
         respond Musee.list(params), model: [museeInstanceCount: Musee.count()]
     }
 
