@@ -19,7 +19,7 @@ class MuseeController {
     def addMuseeToFav() {
         def museeList = museeService.searchMusees(params.nom, null, null)
         Musee myFavMusee = museeList.get(0);
-        println myFavMusee
+        museeService.addMuseeToFavorite(myFavMusee)
         render(view: 'index', model: [museeInstanceList: Musee.list()])
     }
 

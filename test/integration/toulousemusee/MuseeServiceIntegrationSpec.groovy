@@ -113,5 +113,19 @@ class MuseeServiceIntegrationSpec extends Specification {
         and:"ils sont ordonnés suivant le nom du musée"
         res*.nom == [jeuTestService.musee1.nom, jeuTestService.musee2.nom, jeuTestService.musee3.nom, jeuTestService.musee4.nom, jeuTestService.musee5.nom, jeuTestService.musee6.nom, jeuTestService.musee7.nom, jeuTestService.musee8.nom, jeuTestService.musee9.nom, jeuTestService.musee10.nom, jeuTestService.musee11.nom, jeuTestService.musee12.nom]
     }
+
+    void "test de l'ajout en favoris d'un musée"() {
+        given:"la liste des musées favoris et un musée"
+        Adresse adresseMusee = new Adresse(numero: 10, rue: "Chemin du Lilas", codePostal: "4500", ville: "Orléans")
+        adresseMusee.save()
+        Musee unMusee = new Musee(nom: "Musée X", horairesOuverture: "9h à 12h", telephone: "05.61.22.21.92", accesMetro: "Jean Jaurès", accesBus: "Capitole", adresse: adresseMusee)
+        List<Musee> list = museeService.museeFavoris
+
+        when:"on ajoute le musée a cette liste"
+        list = museeService.addMuseeToFavorite(unMusee)
+
+        then:"le musée est bien ajouté dans la liste"
+        list.contains(unMusee)
+    }
 }
 

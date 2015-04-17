@@ -5,6 +5,8 @@ import grails.transaction.Transactional
 @Transactional
 class MuseeService {
 
+    List<Musee> museeFavoris = new ArrayList<Musee>()
+
     def Musee insertOrUpdateMuseeForGestionnaire(Musee unMusee, Gestionnaire unGestionnaire) {
         unGestionnaire.save()
         unGestionnaire.addToMusees(unMusee)
@@ -15,6 +17,12 @@ class MuseeService {
     def deleteMusee(Musee unMusee) {
         unMusee.gestionnaire.removeFromMusees(unMusee)
         unMusee.delete()
+    }
+
+    def List<Musee> addMuseeToFavorite(Musee museeToAdd) {
+        museeFavoris.add(museeToAdd)
+        println museeFavoris
+        museeFavoris
     }
 
     List<Musee> searchMusees(String inNomMusee, String inCodePostal, String inNomRue) {
