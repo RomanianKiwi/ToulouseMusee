@@ -21,7 +21,6 @@ class MuseeService {
 
     def List<Musee> addMuseeToFavorite(Musee museeToAdd) {
         museeFavoris.add(museeToAdd)
-        println museeFavoris
         museeFavoris
     }
 

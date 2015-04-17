@@ -93,6 +93,23 @@
 			<div class="pagination">
 				<g:paginate max="5" total="${museeInstanceCount ?: 5}" />
 			</div>
+
+            <table id="museesFavoris">
+                <thead>
+                <tr>
+                    <g:sortableColumn property="nom" title="${message(code: 'musee.nom.label', default: 'Nom')}" />
+                </tr>
+                </thead>
+                <tbody>
+                <g:each in="${museeFavorisList}" status="i" var="museefavInstance">
+                    <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+                        <g:form>
+                            <td><g:hiddenField name="nom" value="${fieldValue(bean: museefavInstance, field: "nom")}" />${fieldValue(bean: museefavInstance, field: "nom")}</td>
+                        </g:form>
+                    </tr>
+                </g:each>
+                </tbody>
+            </table>
 		</div>
 	</body>
 </html>
