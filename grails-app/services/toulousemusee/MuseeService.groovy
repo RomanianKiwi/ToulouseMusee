@@ -21,7 +21,7 @@ class MuseeService {
 
     def List<Musee> addMuseeToFavorite(Musee museeToAdd) {
         museeFavoris.add(museeToAdd)
-        museeFavoris
+        museeFavoris.sort {it.nom}
     }
 
     List<Musee> searchMusees(String inNomMusee, String inCodePostal, String inNomRue) {

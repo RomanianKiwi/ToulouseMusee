@@ -16,11 +16,37 @@
 				margin: 2em 1em 1.25em 18em;
 			}
 
+			#museesTable {
+				margin-top: 2%;
+			}
+
 			#museesTable > tbody > tr > td {
 				text-align: center;
 				vertical-align: middle;
 			}
+			#museesFavorisBlock {
+				width: 50%;
+				float: right;
+				text-align: center;
+			}
         </style>
+		<script>
+			$(document).ready(function(){
+				var nbMuseesFav = $("#museesFavoris").find("tbody")[0].childElementCount;
+
+				if(nbMuseesFav == 0) {
+					$("#museesFavorisBlock").hide();
+				}
+				else {
+					$("#museesFavorisBlock").show();
+				}
+
+				$("#museesFavoris").children("tbody").children().each(function(){
+					var idMusee = $(this).find("td").find("input")[0].value;
+					$("#fav" + idMusee).hide();
+				});
+			});
+		</script>
 
 	</head>
 	<body>
@@ -28,6 +54,26 @@
 		<div id="page-body" role="main">
 			<h1>Welcome to ToulouseMusee</h1>
 		</div>
+		<div id="museesFavorisBlock">
+			<h3 style="color:#48802C;">Mes musées préférés</h3>
+			<table id="museesFavoris">
+				<thead>
+				<tr>
+					<g:sortableColumn property="nom" title="${message(code: 'musee.nom.label', default: 'Nom')}" />
+				</tr>
+				</thead>
+				<tbody>
+				<g:each in="${museeFavorisList}" status="i" var="museefavInstance">
+					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+						<g:form>
+							<td><g:hiddenField name="nom" value="${museefavInstance.id}" />${fieldValue(bean: museefavInstance, field: "nom")}</td>
+						</g:form>
+					</tr>
+				</g:each>
+				</tbody>
+			</table>
+		</div>
+
 		<div id="list-musee" class="content scaffold-list" role="main">
 			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 			<g:if test="${flash.message}">
@@ -38,11 +84,13 @@
                 <fieldset class="form">
                     <div class="fieldcontain">
                         <label for="nom">
-                            Nom du musée contient :
+                            Nom du musée contient:
                         </label>
                         <g:textField name="nom"/>
+					</div>
+					<div class="fieldcontain">
                         <label for="codePostal">
-                            Le code postal contient :
+							Le code postal contient:
                         </label>
                         <g:select id="codePostal" name='codePostal' value="${adresse?.codePostal}"
 								  noSelection="${['':'Choisir un code postal']}"
@@ -50,11 +98,11 @@
                     </div>
                     <div class="fieldcontain">
                         <label for="rue">
-                            Le nom de la rue contient :
+							La rue contient:
                         </label>
                         <g:textField name="rue"/>
                     </div>
-                    <div style="float: right">
+                    <div style="margin-top: 2%;">
                         <g:actionSubmit action="doSearchMusees" value="Rechercher"/>
                     </div>
                 </fieldset>
@@ -84,7 +132,7 @@
 							<td><g:hiddenField name="accesBus" value="${fieldValue(bean: museeInstance, field: "accesBus")}" />${fieldValue(bean: museeInstance, field: "accesBus")}</td>
 							<td><g:hiddenField name="horairesOuverture" value="${fieldValue(bean: museeInstance, field: "horairesOuverture")}" />${fieldValue(bean: museeInstance, field: "horairesOuverture")}</td>
 							<td><g:hiddenField name="gestionnaire" value="${fieldValue(bean: museeInstance, field: "gestionnaire")}" />${fieldValue(bean: museeInstance, field: "gestionnaire")}</td>
-							<td><g:actionSubmit action="addMuseeToFav" value="Ajouter à ma liste de musées"/></td>
+							<td><g:actionSubmit id="fav${museeInstance.id}" class="buttonFav" action="addMuseeToFav" value="Ajouter à ma liste de musées"/></td>
 						</g:form>
 					</tr>
 				</g:each>
@@ -93,23 +141,6 @@
 			<div class="pagination">
 				<g:paginate max="5" total="${museeInstanceCount ?: 5}" />
 			</div>
-
-            <table id="museesFavoris">
-                <thead>
-                <tr>
-                    <g:sortableColumn property="nom" title="${message(code: 'musee.nom.label', default: 'Nom')}" />
-                </tr>
-                </thead>
-                <tbody>
-                <g:each in="${museeFavorisList}" status="i" var="museefavInstance">
-                    <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-                        <g:form>
-                            <td><g:hiddenField name="nom" value="${fieldValue(bean: museefavInstance, field: "nom")}" />${fieldValue(bean: museefavInstance, field: "nom")}</td>
-                        </g:form>
-                    </tr>
-                </g:each>
-                </tbody>
-            </table>
 		</div>
 	</body>
 </html>

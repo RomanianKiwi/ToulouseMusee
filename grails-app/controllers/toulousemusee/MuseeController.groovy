@@ -13,14 +13,15 @@ class MuseeController {
 
     def doSearchMusees() {
         def museeList = museeService.searchMusees(params.nom,params.codePostal, params.rue)
-        render(view: 'index', model: [museeInstanceList: museeList, museeInstanceCount: museeList.size()])
+        def favList = museeService.museeFavoris
+        render(view: 'index', model: [museeFavorisList: favList, museeInstanceList: museeList, museeInstanceCount: museeList.size()])
     }
 
     def addMuseeToFav() {
         def museeList = museeService.searchMusees(params.nom, null, null)
         Musee myFavMusee = museeList.get(0);
         def favList = museeService.addMuseeToFavorite(myFavMusee)
-        render(view: 'index', model: [museeFavorisList: favList, museeInstanceList: Musee.list()])
+        render(view: 'index', model: [museeFavorisList: favList, museeInstanceList: Musee.list(), museeInstanceCount: Musee.list().size()])
     }
 
     def index(Integer max) {
