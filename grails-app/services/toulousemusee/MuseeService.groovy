@@ -19,10 +19,22 @@ class MuseeService {
         unMusee.delete()
     }
 
+    def List<Musee> removeMuseeToFavorite(Musee museeToRemove) {
+        def i = museeFavoris.iterator()
+
+        while(i.hasNext()) {
+            if(museeToRemove.id == i.next().id)
+                i.remove()
+        }
+
+        museeFavoris.sort {it.nom}
+    }
+
     def List<Musee> addMuseeToFavorite(Musee museeToAdd) {
         museeFavoris.add(museeToAdd)
         museeFavoris.sort {it.nom}
     }
+
 
     List<Musee> searchMusees(String inNomMusee, String inCodePostal, String inNomRue) {
         def criteria = Musee.createCriteria()

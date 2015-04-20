@@ -20,6 +20,10 @@
 				margin-top: 2%;
 			}
 
+			#museesFavoris {
+				margin-top: 2%;
+			}
+
 			#museesTable > tbody > tr > td {
 				text-align: center;
 				vertical-align: middle;
@@ -43,7 +47,7 @@
 
 				$("#museesFavoris").children("tbody").children().each(function(){
 					var idMusee = $(this).find("td").find("input")[0].value;
-					$("#fav" + idMusee).hide();
+					$("#addFav" + idMusee).hide();
 				});
 			});
 		</script>
@@ -60,13 +64,15 @@
 				<thead>
 				<tr>
 					<g:sortableColumn property="nom" title="${message(code: 'musee.nom.label', default: 'Nom')}" />
+					<th></th>
 				</tr>
 				</thead>
 				<tbody>
 				<g:each in="${museeFavorisList}" status="i" var="museefavInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 						<g:form>
-							<td><g:hiddenField name="nom" value="${museefavInstance.id}" />${fieldValue(bean: museefavInstance, field: "nom")}</td>
+							<td><g:hiddenField name="id" value="${museefavInstance.id}" />${fieldValue(bean: museefavInstance, field: "nom")}</td>
+							<td><g:actionSubmit id="removeFav${museefavInstance.id}" action="removeToFav" value="Supprimer de ma liste de musées"/></td>
 						</g:form>
 					</tr>
 				</g:each>
@@ -132,7 +138,7 @@
 							<td><g:hiddenField name="accesBus" value="${fieldValue(bean: museeInstance, field: "accesBus")}" />${fieldValue(bean: museeInstance, field: "accesBus")}</td>
 							<td><g:hiddenField name="horairesOuverture" value="${fieldValue(bean: museeInstance, field: "horairesOuverture")}" />${fieldValue(bean: museeInstance, field: "horairesOuverture")}</td>
 							<td><g:hiddenField name="gestionnaire" value="${fieldValue(bean: museeInstance, field: "gestionnaire")}" />${fieldValue(bean: museeInstance, field: "gestionnaire")}</td>
-							<td><g:actionSubmit id="fav${museeInstance.id}" class="buttonFav" action="addMuseeToFav" value="Ajouter à ma liste de musées"/></td>
+							<td><g:actionSubmit id="addFav${museeInstance.id}" action="addMuseeToFav" value="Ajouter à ma liste de musées"/></td>
 						</g:form>
 					</tr>
 				</g:each>
