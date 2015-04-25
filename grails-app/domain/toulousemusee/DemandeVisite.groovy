@@ -13,7 +13,7 @@ class DemandeVisite {
         statut blank : false
     }
 
-    static hasMany = [museeDemande: Musee]
+    static hasMany = [demandes: DemandeVisiteMusee]
 
-    static belongsTo = [Musee]
+    static belongsTo = Musee
 }
