@@ -115,6 +115,7 @@ class MuseeServiceIntegrationSpec extends Specification {
     }
 
     void "test de l'ajout en favoris d'un musée"() {
+
         given:"la liste des musées favoris et un musée"
         Adresse adresseMusee = new Adresse(numero: 10, rue: "Chemin du Lilas", codePostal: "4500", ville: "Orléans")
         adresseMusee.save()
@@ -126,6 +127,23 @@ class MuseeServiceIntegrationSpec extends Specification {
 
         then:"le musée est bien ajouté dans la liste"
         list.contains(unMusee)
+    }
+
+    void "test de la suppression d'un musee de la liste de musee prefere"() {
+
+        given: "la liste de musees preferes et un musee"
+        Adresse adresseMusee = new Adresse(numero: 10, rue: "Chemin du Lilas", codePostal: "4500", ville: "Orléans")
+        adresseMusee.save()
+        Musee unMusee = new Musee(nom: "Musée X", horairesOuverture: "9h à 12h", telephone: "05.61.22.21.92", accesMetro: "Jean Jaurès", accesBus: "Capitole", adresse: adresseMusee)
+        List<Musee> listMuseesPreferes = museeService.museeFavoris
+        listMuseesPreferes.add(unMusee)
+
+        when:"on supprime le musee de cette liste"
+        listMuseesPreferes = museeService.removeMuseeToFavorite(unMusee)
+
+        then:"le musee n'est plus present dans la liste de musees preferes"
+        listMuseesPreferes.contains(unMusee) == false
+
     }
 }
 

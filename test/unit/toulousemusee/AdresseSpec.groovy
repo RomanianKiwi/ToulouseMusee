@@ -62,4 +62,19 @@ class AdresseSpec extends Specification {
         10         | "Chemin du Lilas" | "45000"      | "Orléans"
 
     }
+
+    @Unroll
+    void "test de recuperation d'une liste de code postaux sans doublon"() {
+
+        given: "plusieurs adresses initialisee correctement"
+        Adresse adresse1 = new Adresse(numero: 10, rue: "Avenue du Lilas", codePostal: "31000", ville: "Toulouse").save()
+        Adresse adresse2 = new Adresse(numero: 11, rue: "Avenue du Lilas", codePostal: "31000", ville: "Toulouse").save()
+        Adresse adresse3 = new Adresse(numero: 12, rue: "Avenue du Lilas", codePostal: "31000", ville: "Toulouse").save()
+        Adresse adresse4 = new Adresse(numero: 25, rue: "Rue du Soleil", codePostal: "45000", ville: "Orléans").save()
+        Adresse adresse5 = new Adresse(numero: 77, rue: "Place Beaumarchais", codePostal: "81000", ville: "Albi").save()
+
+        expect: "la liste de code postaux contient 3 elements"
+        adresse1.listUnique().size() == 3
+
+    }
 }

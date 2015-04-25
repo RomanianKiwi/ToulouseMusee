@@ -19,6 +19,46 @@ class MuseeControllerSpec extends Specification {
         params["adresse"] = Mock(Adresse)
     }
 
+    void "Test the doSearchMusees action returns the correct model"() {
+        when: "The doSearchMusees action is executed"
+        controller.doSearchMusees()
+
+        then: "The model is correct"
+        !model.museeInstanceList
+        model.museeInstanceCount == 0
+        !model.museeFavorisList
+    }
+
+    void "Test the addMuseeToFav action returns the correct model"() {
+        when: "The addMuseeToFav action is executed"
+        controller.addMuseeToFav()
+
+        then: "The model is correct"
+        !model.museeInstanceList
+        model.museeInstanceCount == 0
+        !model.museeFavorisList
+    }
+
+    void "Test the removeToFav action returns the correct model"() {
+        when: "The removeToFav action is executed"
+        controller.removeToFav()
+
+        then: "The model is correct"
+        !model.museeInstanceList
+        model.museeInstanceCount == 0
+        !model.museeFavorisList
+    }
+
+    void "Test the effectuerDemandeDeVisite action returns the correct model"() {
+        when: "The effectuerDemandeDeVisite action is executed"
+        controller.effectuerDemandeDeVisite()
+
+        then: "The model is correct"
+        !model.museeInstanceList
+        model.museeInstanceCount == 0
+        !model.museeFavorisList
+    }
+
     void "Test the index action returns the correct model"() {
 
         when: "The index action is executed"
@@ -102,7 +142,7 @@ class MuseeControllerSpec extends Specification {
         controller.update(null)
 
         then: "A 404 error is returned"
-        response.redirectedUrl == '/musee/index'
+        response.redirectedUrl == '/'
         flash.message != null
 
 
@@ -134,7 +174,7 @@ class MuseeControllerSpec extends Specification {
         controller.delete(null)
 
         then: "A 404 is returned"
-        response.redirectedUrl == '/musee/index'
+        response.redirectedUrl == '/'
         flash.message != null
 
         when: "A domain instance is created"
