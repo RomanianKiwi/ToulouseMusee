@@ -29,7 +29,7 @@
 				vertical-align: middle;
 			}
 			#museesFavorisBlock {
-				width: 50%;
+				width: 60%;
 				float: right;
 				text-align: center;
 			}
@@ -65,6 +65,7 @@
 				<tr>
 					<g:sortableColumn property="nom" title="${message(code: 'musee.nom.label', default: 'Nom')}" />
 					<th></th>
+					<th></th>
 				</tr>
 				</thead>
 				<tbody>
@@ -73,6 +74,7 @@
 						<g:form>
 							<td><g:hiddenField name="id" value="${museefavInstance.id}" />${fieldValue(bean: museefavInstance, field: "nom")}</td>
 							<td><g:actionSubmit id="removeFav${museefavInstance.id}" action="removeToFav" value="Supprimer de ma liste de musées"/></td>
+							<td><g:actionSubmit id="demandeVisite${museefavInstance.id}" action="effectuerDemandeDeVisite" value="Effectuer une demande de visite"/></td>
 						</g:form>
 					</tr>
 				</g:each>

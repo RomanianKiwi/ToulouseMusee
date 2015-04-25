@@ -30,6 +30,12 @@ class MuseeController {
         render (view: 'index', model: [museeFavorisList: favList, museeInstanceList: Musee.list(), museeInstanceCount: Musee.list().size()])
     }
 
+    def effectuerDemandeDeVisite() {
+        Musee museeToVisit = Musee.findById(params.id)
+        def favList = museeService.museeFavoris
+        render (view: 'index', model: [museeFavorisList: favList, museeInstanceList: Musee.list(), museeInstanceCount: Musee.list().size()])
+    }
+
     def index(Integer max) {
         params.max = Math.min(max ?: 5, 100)
         def favList = museeService.museeFavoris
