@@ -30,9 +30,7 @@ class MuseeController {
     }
 
     def effectuerDemandeDeVisite() {
-        Musee museeToVisit = Musee.findById(params.id)
-        def favList = museeService.museeFavoris
-        render (view: 'index', model: [museeFavorisList: favList, museeInstanceList: Musee.list(), museeInstanceCount: Musee.list().size()])
+        redirect(controller: "DemandeVisite", action: "index")
     }
 
     def index(Integer max) {

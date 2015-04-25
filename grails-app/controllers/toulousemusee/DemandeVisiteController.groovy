@@ -7,11 +7,36 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class DemandeVisiteController {
 
+    MuseeService museeService
+
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond DemandeVisite.list(params), model: [demandeVisiteInstanceCount: DemandeVisite.count()]
+        def favList = museeService.museeFavoris
+        Musee museeToVisit = Musee.findById(params.idMusee)
+        respond DemandeVisite.list(params), model: [demandeVisiteInstanceCount: DemandeVisite.count(),
+                                                    museeFavorisList: favList,
+                                                    museeVisiteInstance: museeToVisit]
+    }
+
+    def effectuerDemandeDeVisite() {
+        Date dateDebut = params.dateDebut
+        Date dateFin = params.dateFin
+        int nbPersonnes = Integer.parseInt(params.nbPersonnes)
+        def messageCode;
+
+        if(dateDebut > dateFin) {
+            messageCode = "Informations invalides, veuillez recommencer la saisie !"
+        }
+        else {
+            messageCode = "Votre demande a ete effectue avec succes. Voici votre code de demande : !"
+        }
+
+        def favList = museeService.museeFavoris
+        render(view: 'index', model: [demandeVisiteInstanceCount: DemandeVisite.count(),
+                                      museeFavorisList: favList,
+                                      code: messageCode])
     }
 
     def show(DemandeVisite demandeVisiteInstance) {

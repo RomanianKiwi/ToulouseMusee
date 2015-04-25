@@ -34,6 +34,7 @@
 				text-align: center;
 			}
         </style>
+
 		<script>
 			$(document).ready(function(){
 				var nbMuseesFav = $("#museesFavoris").find("tbody")[0].childElementCount;
@@ -65,7 +66,6 @@
 				<tr>
 					<g:sortableColumn property="nom" title="${message(code: 'musee.nom.label', default: 'Nom')}" />
 					<th></th>
-					<th></th>
 				</tr>
 				</thead>
 				<tbody>
@@ -74,12 +74,14 @@
 						<g:form>
 							<td><g:hiddenField name="id" value="${museefavInstance.id}" />${fieldValue(bean: museefavInstance, field: "nom")}</td>
 							<td><g:actionSubmit id="removeFav${museefavInstance.id}" action="removeToFav" value="Supprimer de ma liste de musées"/></td>
-							<td><g:actionSubmit id="demandeVisite${museefavInstance.id}" action="effectuerDemandeDeVisite" value="Effectuer une demande de visite"/></td>
 						</g:form>
 					</tr>
 				</g:each>
 				</tbody>
 			</table>
+			<g:form>
+				<g:actionSubmit action="effectuerDemandeDeVisite" value="Effectuer une demande de visite"/>
+			</g:form>
 		</div>
 
 		<div id="list-musee" class="content scaffold-list" role="main">
