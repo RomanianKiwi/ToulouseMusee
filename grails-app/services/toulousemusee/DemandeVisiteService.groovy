@@ -5,15 +5,13 @@ import grails.transaction.Transactional
 @Transactional
 class DemandeVisiteService {
 
-    DemandeVisiteMusee demandeVisiteMusee
-
-    def DemandeVisiteMusee ajoutDemandeVisitePourMusee(Musee unMusee, DemandeVisite uneDemande) {
-        println unMusee
-        println uneDemande
-        demandeVisiteMusee.link(unMusee,uneDemande)
+    def ajoutDemandeVisitePourMusee(Musee unMusee, DemandeVisite uneDemande) {
+        unMusee.addToDemandes(uneDemande)
+        unMusee.save()
     }
 
-    def Musee supprimeDemandeVisitePourMusee(Musee unMusee, DemandeVisite uneDemande) {
-        demandeVisiteMusee.delink(unMusee,uneDemande)
+    def supprimeDemandeVisitePourMusee(Musee unMusee, DemandeVisite uneDemande) {
+        unMusee.removeFromDemandes(uneDemande)
+        unMusee.save()
     }
 }

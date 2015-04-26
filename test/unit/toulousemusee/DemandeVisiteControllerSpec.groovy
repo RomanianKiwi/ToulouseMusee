@@ -20,8 +20,20 @@ class DemandeVisiteControllerSpec extends Specification {
         controller.index()
 
         then: "The model is correct"
-        !model.demandeVisiteInstanceList
+        !model.museeVisiteInstance
+        !model.museeFavorisList
         model.demandeVisiteInstanceCount == 0
+    }
+
+    void "Test the effectuerDemandeDeVisite action returns the correct model"() {
+
+        when: "The effectuerDemandeDeVisite action is executed"
+        controller.effectuerDemandeDeVisite()
+
+        then: "The model is correct"
+        !model.museeFavorisList
+        model.demandeVisiteInstanceCount == 0
+        model.messageCode == ""
     }
 
     void "Test the create action returns the correct model"() {

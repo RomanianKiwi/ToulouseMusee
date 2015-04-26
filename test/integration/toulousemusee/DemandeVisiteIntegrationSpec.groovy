@@ -13,7 +13,7 @@ class DemandeVisiteIntegrationSpec extends Specification {
 
         given:"un musée et une demande de visite pour ce musée"
         Musee unMusee = jeuTestService.musee1
-        DemandeVisite unedemandeVisite = new DemandeVisite(code: 12, dateDebutPeriode: "2015-10-12", dateFinPeriode: "2015-10-18", statut: "en attente", nbPersonnes: 5).save()
+        DemandeVisite unedemandeVisite = new DemandeVisite(code: 12, dateDebutPeriode: Mock(Date), dateFinPeriode: Mock(Date), statut: "en attente", nbPersonnes: 5).save(failOnError : true)
 
         when: "on tente d'ajouter la demande de visite pour ce musée"
         Musee resultMusee = demandeVisiteService.ajoutDemandeVisitePourMusee(unMusee,unedemandeVisite)
@@ -28,14 +28,14 @@ class DemandeVisiteIntegrationSpec extends Specification {
         resultMusee.demandes.contains(unedemandeVisite)
 
         and:"la demande de visite a dans sa liste de musée le musée passé en paramètre"
-        unedemandeVisite.museeDemande.contains(resultMusee)
+        unedemandeVisite.musees.contains(resultMusee)
     }
 
     void "test suppression d'une demande de visite pour un musée"() {
 
         given:"un musée possédant une demande de visite pour ce musée"
         Musee unMusee = jeuTestService.musee1
-        DemandeVisite unedemandeVisite = new DemandeVisite(code: 13, dateDebutPeriode: "2015-10-12", dateFinPeriode: "2015-10-18", statut: "en attente", nbPersonnes: 4)
+        DemandeVisite unedemandeVisite = new DemandeVisite(code: 13, dateDebutPeriode: Mock(Date), dateFinPeriode: Mock(Date), statut: "en attente", nbPersonnes: 4)
         unedemandeVisite.save()
         unMusee = demandeVisiteService.ajoutDemandeVisitePourMusee(unMusee,unedemandeVisite)
 
@@ -52,6 +52,6 @@ class DemandeVisiteIntegrationSpec extends Specification {
         !resultMusee.demandes.contains(unedemandeVisite)
 
         and:"la demande de visite n'a pas dans sa liste de musée le musée passé en paramètre"
-        !unedemandeVisite.museeDemande.contains(resultMusee)
+        !unedemandeVisite.musees.contains(resultMusee)
     }
 }

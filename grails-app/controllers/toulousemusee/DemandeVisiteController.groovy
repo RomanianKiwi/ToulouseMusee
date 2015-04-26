@@ -23,8 +23,11 @@ class DemandeVisiteController {
     def effectuerDemandeDeVisite() {
         Date dateDebut = params.dateDebut
         Date dateFin = params.dateFin
-        int nbPersonnes = Integer.parseInt(params.nbPersonnes)
+        int nbPersonnes = 0
         def messageCode;
+        if(params.nbPersonnes != null) {
+            nbPersonnes = Integer.parseInt(params.nbPersonnes)
+        }
 
         if(dateDebut > dateFin) {
             messageCode = "Informations invalides, veuillez recommencer la saisie !"

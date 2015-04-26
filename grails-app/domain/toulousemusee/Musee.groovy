@@ -19,7 +19,9 @@ class Musee {
         adresse nullable: false
     }
 
-    static hasMany = [ demandes : DemandeVisiteMusee ]
+    static hasMany = [ demandes : DemandeVisite ]
+
+    static belongsTo = [DemandeVisite]
 
     String toString(){
         "$nom"
