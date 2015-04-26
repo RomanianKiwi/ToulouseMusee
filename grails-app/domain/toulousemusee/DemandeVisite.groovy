@@ -9,6 +9,7 @@ class DemandeVisite {
     String statut
 
     static constraints = {
+        code nullable: true
         nbPersonnes min: 1 , max: 6
         statut blank : false
     }

@@ -1,6 +1,5 @@
 package toulousemusee
 
-
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -8,6 +7,7 @@ import grails.transaction.Transactional
 class DemandeVisiteController {
 
     MuseeService museeService
+    DemandeVisiteService demandeVisiteService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -24,7 +24,9 @@ class DemandeVisiteController {
         Date dateDebut = params.dateDebut
         Date dateFin = params.dateFin
         int nbPersonnes = 0
-        def messageCode;
+        def messageCode
+        def favList = museeService.museeFavoris
+
         if(params.nbPersonnes != null) {
             nbPersonnes = Integer.parseInt(params.nbPersonnes)
         }
@@ -33,10 +35,24 @@ class DemandeVisiteController {
             messageCode = "Informations invalides, veuillez recommencer la saisie !"
         }
         else {
-            messageCode = "Votre demande a ete effectue avec succes. Voici votre code de demande : !"
+            DemandeVisite demandeVisite = new DemandeVisite(dateDebutPeriode: dateDebut, dateFinPeriode: dateFin,
+                    nbPersonnes: nbPersonnes, statut: "En attente").save()
+
+            demandeVisite.code = demandeVisite.id
+            demandeVisite.save()
+
+            /*
+            Iterator it = favList.iterator()
+            while(it.hasNext()) {
+                // Une erreur "failed to lazily initialize a collection of role: toulousemusee.Musee.demandes,
+                // could not initialize proxy - no Session" se produit. Nous ne trouvons pas de solution
+                //demandeVisiteService.ajoutDemandeVisitePourMusee(it.next(),demandeVisite)
+            }*/
+
+            messageCode = "Votre demande a ete effectue avec succes. Voici votre code de demande : " + demandeVisite.code
+
         }
 
-        def favList = museeService.museeFavoris
         render(view: 'index', model: [demandeVisiteInstanceCount: DemandeVisite.count(),
                                       museeFavorisList: favList,
                                       code: messageCode])
